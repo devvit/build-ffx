@@ -24,7 +24,7 @@ jobs:
 
       - name: Update Local Source
         working-directory: ./mozilla-unified
-        run: hg up -C central
+        run: hg up -C esr115
 
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
