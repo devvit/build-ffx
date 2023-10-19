@@ -1,0 +1,63 @@
+name: Build Firefox on macOS
+
+on:
+  push:
+
+env:
+  FF_NAME: 'FFX'
+  FF_BIN_NAME: 'ffx'
+  FF_APP_ID: 'com.example.ffx'
+
+jobs:
+  build:
+    runs-on: "macos-11"
+    permissions:
+      contents: write
+    steps:
+      - name: Install Mercurial
+        run: python3 -m pip install mercurial==6.1.4
+
+      - name: Bootstrap Mozilla Source
+        run: |
+          curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
+          python3 bootstrap.py --application-choice=browser --no-interactive
+
+      - name: Update Local Source
+        working-directory: ./mozilla-unified
+        run: hg up -C central
+
+      - name: Initialize `mozconfig`
+        working-directory: ./mozilla-unified
+        run: |
+          echo "ac_add_options --with-branding=browser/branding/official" > mozconfig
+          echo "ac_add_options --with-app-name=$FF_BIN_NAME" >> mozconfig
+          echo "export MOZ_USER_DIR=$FF_NAME" >> mozconfig
+          echo "export MOZ_APP_BASENAME=$FF_BIN_NAME" >> mozconfig
+          echo "export MOZ_APP_PROFILE=$FF_BIN_NAME" >> mozconfig
+          echo "export MOZ_APP_DISPLAYNAME=$FF_NAME" >> mozconfig
+          echo "export MOZ_MACBUNDLE_ID=$FF_APP_ID" >> mozconfig
+          echo "export MOZ_DISTRIBUTION_ID=$FF_APP_ID" >> mozconfig
+
+      - name: Set Release Tag Output
+        id: release-tag
+        run: echo "NOW=$(date +'%Y%m%d%H%M%S')" >> "$GITHUB_OUTPUT"
+
+      - name: Construct New `debugger` Keyword
+        id: debugger-keyword
+        run: echo "DEBUGGER_KEYWORD=${{ inputs.debugger_keyword || format('debugger{0}', steps.release-tag.outputs.NOW) }}" >> "$GITHUB_OUTPUT"
+
+      - name: Replace `debugger` Keyword
+        working-directory: ./mozilla-unified
+        run: sed -i'' -e 's/MACRO(debugger/MACRO(${{ steps.debugger-keyword.outputs.DEBUGGER_KEYWORD }}/' ./js/src/frontend/ReservedWords.h
+
+      - name: Build and Package
+        working-directory: ./mozilla-unified
+        run: |
+          ./mach build 
+          ./mach package
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos-firefox-artifacts
+          path: "./mozilla-unified/obj-x86_64-apple-darwin*/dist/*.mac.dmg"
