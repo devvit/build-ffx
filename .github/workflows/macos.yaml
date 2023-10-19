@@ -4,7 +4,7 @@ on:
   push:
 
 env:
-  FF_NAME: 'FFX'
+  FF_NAME: 'ffffxx'
   FF_BIN_NAME: 'ffx'
   FF_APP_ID: 'com.example.ffx'
 
@@ -29,8 +29,10 @@ jobs:
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
         run: |
-          echo "ac_add_options --with-branding=browser/branding/official" > mozconfig
+          echo "ac_add_options --with-branding=browser/branding/unofficial" > mozconfig
           echo "ac_add_options --with-app-name=$FF_BIN_NAME" >> mozconfig
+          echo "export MOZ_UPDATER=0" >> mozconfig
+          echo "export MOZ_APP_NAME=$FF_NAME" >> mozconfig
           echo "export MOZ_USER_DIR=$FF_NAME" >> mozconfig
           echo "export MOZ_APP_BASENAME=$FF_BIN_NAME" >> mozconfig
           echo "export MOZ_APP_PROFILE=$FF_BIN_NAME" >> mozconfig
