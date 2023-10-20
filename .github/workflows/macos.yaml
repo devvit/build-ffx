@@ -12,7 +12,7 @@ jobs:
       - name: Install Mercurial
         run: |
           brew install llvm
-          python3 -m pip install mercurial
+          python3 -m pip install mercurial==6.1.4
 
       - name: Bootstrap Mozilla Source
         run: |
