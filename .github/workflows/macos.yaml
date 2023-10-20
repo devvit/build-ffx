@@ -30,21 +30,9 @@ jobs:
           echo 'ac_add_options --disable-crashreporter' >> mozconfig
           echo 'export CC="$HOME"/.mozbuild/clang/bin/clang' >> mozconfig
           echo 'export CXX="$HOME"/.mozbuild/clang/bin/clang++' >> mozconfig
+          echo 'ac_add_options --target=aarch64-apple-darwin' >> mozconfig
+          rustup target add aarch64-apple-darwin
           perl -pi -e 's/debuggerStatement\(\) {/debuggerStatement\(\) {return null\(\);/g' ./js/src/frontend/Parser.cpp
-          # rustup target add aarch64-apple-darwin
-          # echo 'ac_add_options --target=aarch64-apple-darwin' >> mozconfig
-
-      # - name: Set Release Tag Output
-      #   id: release-tag
-      #   run: echo "NOW=$(date +'%Y%m%d%H%M%S')" >> "$GITHUB_OUTPUT"
-
-      # - name: Construct New `debugger` Keyword
-      #   id: debugger-keyword
-      #   run: echo "DEBUGGER_KEYWORD=${{ inputs.debugger_keyword || format('debugger{0}', steps.release-tag.outputs.NOW) }}" >> "$GITHUB_OUTPUT"
-
-      # - name: Replace `debugger` Keyword
-      #   working-directory: ./mozilla-unified
-      #   run: sed -i'' -e 's/MACRO(debugger/MACRO(${{ steps.debugger-keyword.outputs.DEBUGGER_KEYWORD }}/' ./js/src/frontend/ReservedWords.h
 
       - name: Build and Package
         working-directory: ./mozilla-unified
