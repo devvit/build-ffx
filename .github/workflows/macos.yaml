@@ -5,12 +5,14 @@ on:
 
 jobs:
   build:
-    runs-on: "macos-11"
+    runs-on: macos-latest
     permissions:
       contents: write
     steps:
       - name: Install Mercurial
-        run: python3 -m pip install mercurial==6.1.4
+        run: |
+          brew install llvm
+          python3 -m pip install mercurial
 
       - name: Bootstrap Mozilla Source
         run: |
