@@ -2,6 +2,8 @@ name: Build Firefox on macOS
 
 on:
   push:
+  schedule:
+    - cron: '0 0 1 * *'
 
 jobs:
   build:
@@ -9,6 +11,9 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: "checkout repo"
+        uses: actions/checkout@v3
+
       - name: Install Mercurial
         run: python3 -m pip install mercurial==6.1.4
 
@@ -19,7 +24,7 @@ jobs:
 
       - name: Update Local Source
         working-directory: ./mozilla-unified
-        run: hg up -C esr115
+        run: hg up -C $(cat ../version)
 
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
@@ -30,9 +35,7 @@ jobs:
           echo 'ac_add_options --disable-crashreporter' >> mozconfig
           echo 'export CC="$HOME"/.mozbuild/clang/bin/clang' >> mozconfig
           echo 'export CXX="$HOME"/.mozbuild/clang/bin/clang++' >> mozconfig
-          echo 'ac_add_options --target=aarch64-apple-darwin' >> mozconfig
-          rustup target add aarch64-apple-darwin
-          perl -pi -e 's/debuggerStatement\(\) {/debuggerStatement\(\) {return null\(\);/g' ./js/src/frontend/Parser.cpp
+          bash ../patch.sh
 
       - name: Build and Package
         working-directory: ./mozilla-unified
@@ -43,5 +46,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: macos-firefox-artifacts
+          name: macos-firefox-amd64
           path: "**/*.dmg"
