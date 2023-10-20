@@ -10,9 +10,7 @@ jobs:
       contents: write
     steps:
       - name: Install Mercurial
-        run: |
-          brew install llvm
-          python3 -m pip install mercurial==6.1.4
+        run: python3 -m pip install mercurial==6.1.4
 
       - name: Bootstrap Mozilla Source
         run: |
@@ -28,6 +26,8 @@ jobs:
         run: |
           echo "ac_add_options --with-branding=browser/branding/unofficial" > mozconfig
           echo "ac_add_options --disable-updater" >> mozconfig
+          echo 'export CC="$HOME"/.mozbuild/clang/bin/clang' >> mozconfig
+          echo 'export CXX="$HOME"/.mozbuild/clang/bin/clang++' >> mozconfig
 
       - name: Set Release Tag Output
         id: release-tag
