@@ -1,0 +1,52 @@
+name: Build Firefox on Windows
+
+on:
+  # push:
+  schedule:
+    - cron: '0 0 4 * *'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Install MozillaBuild
+        run: choco install mozillabuild -y --no-progress
+
+      - name: Bootstrap Mozilla Source
+        working-directory: C:\
+        shell: C:\mozilla-build\start-shell.bat -here -e {0}
+        run: |
+          mkdir mozilla-source
+          cd mozilla-source
+          wget --tries=5 https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py
+          python3 bootstrap.py --application-choice=browser --no-interactive
+
+      - name: Update Local Source
+        working-directory: C:\mozilla-source\mozilla-unified
+        shell: C:\mozilla-build\start-shell.bat -here -e {0}
+        run: hg up -C $(cat ../version)
+
+      - name: Initialize `mozconfig`
+        working-directory: C:\mozilla-source\mozilla-unified
+        shell: C:\mozilla-build\start-shell.bat -here -e {0}
+        run: |
+          echo 'ac_add_options --with-branding=browser/branding/unofficial' > mozconfig
+          echo 'ac_add_options --disable-updater' >> mozconfig
+          echo 'ac_add_options --disable-tests' >> mozconfig
+          echo 'ac_add_options --disable-crashreporter' >> mozconfig
+          bash ../patch.sh
+
+      - name: Build and Package
+        working-directory: C:\mozilla-source\mozilla-unified
+        shell: C:\mozilla-build\start-shell.bat -here -e {0}
+        run: |
+          ./mach build
+          ./mach package
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-firefox-amd64
+          path: "C:/mozilla-source/mozilla-unified/obj-x86_64-pc-windows-msvc/dist/install/sea"
