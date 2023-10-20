@@ -1,7 +1,7 @@
 name: Build Firefox on Windows
 
 on:
-  # push:
+  push:
   schedule:
     - cron: '0 0 4 * *'
 
@@ -11,6 +11,9 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: "checkout repo"
+        uses: actions/checkout@v3
+
       - name: Install MozillaBuild
         run: choco install mozillabuild -y --no-progress
 
@@ -26,7 +29,7 @@ jobs:
       - name: Update Local Source
         working-directory: C:\mozilla-source\mozilla-unified
         shell: C:\mozilla-build\start-shell.bat -here -e {0}
-        run: hg up -C $(cat ../version)
+        run: hg up -C $(cat ../../version)
 
       - name: Initialize `mozconfig`
         working-directory: C:\mozilla-source\mozilla-unified
@@ -49,4 +52,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: windows-firefox-amd64
-          path: "C:/mozilla-source/mozilla-unified/obj-x86_64-pc-windows-msvc/dist/install/sea"
+          path: "C:/mozilla-source/mozilla-unified/obj-x86_64-pc-windows-msvc/dist/*"
