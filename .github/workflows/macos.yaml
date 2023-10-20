@@ -30,6 +30,7 @@ jobs:
           echo 'ac_add_options --disable-crashreporter' >> mozconfig
           echo 'export CC="$HOME"/.mozbuild/clang/bin/clang' >> mozconfig
           echo 'export CXX="$HOME"/.mozbuild/clang/bin/clang++' >> mozconfig
+          perl -pi -e 's/debuggerStatement\(\) {/debuggerStatement\(\) {return null\(\);/g' ./js/src/frontend/Parser.cpp
           # rustup target add aarch64-apple-darwin
           # echo 'ac_add_options --target=aarch64-apple-darwin' >> mozconfig
 
