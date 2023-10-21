@@ -24,7 +24,7 @@ jobs:
 
       - name: Update Local Source
         working-directory: ./mozilla-unified
-        run: hg up -C $(cat ../version)
+        run: bash $GITHUB_WORKSPACE/version.sh | xargs hg up -C
 
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
@@ -37,7 +37,7 @@ jobs:
           echo 'export CXX="$HOME"/.mozbuild/clang/bin/clang++' >> mozconfig
           echo 'ac_add_options --target=aarch64-apple-darwin' >> mozconfig
           rustup target add aarch64-apple-darwin
-          bash ../patch.sh
+          bash $GITHUB_WORKSPACE/patch.sh
 
       - name: Build and Package
         working-directory: ./mozilla-unified

@@ -29,7 +29,7 @@ jobs:
       - name: Update Local Source
         working-directory: C:\mozilla-source\mozilla-unified
         shell: C:\mozilla-build\start-shell.bat -here -e {0}
-        run: cat $GITHUB_WORKSPACE/version | xargs hg up -C
+        run: bash $GITHUB_WORKSPACE/version.sh | xargs hg up -C
 
       - name: Initialize `mozconfig`
         working-directory: C:\mozilla-source\mozilla-unified
