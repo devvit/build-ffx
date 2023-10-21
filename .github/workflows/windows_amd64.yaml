@@ -1,7 +1,7 @@
 name: Build Firefox on Windows
 
 on:
-  # push:
+  push:
   schedule:
     - cron: '0 0 4 * *'
 
@@ -36,6 +36,7 @@ jobs:
         shell: C:\mozilla-build\start-shell.bat -here -e {0}
         run: |
           cat $GITHUB_WORKSPACE/mozconfig > mozconfig
+          echo 'ac_add_options --without-wasm-sandboxed-libraries' >> mozconfig
           bash $GITHUB_WORKSPACE/patch.sh
 
       - name: Build and Package
