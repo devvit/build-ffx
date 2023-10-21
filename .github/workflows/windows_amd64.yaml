@@ -12,7 +12,7 @@ jobs:
       contents: write
     steps:
       - name: "checkout repo"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install MozillaBuild
         run: choco install mozillabuild -y --no-progress
@@ -29,7 +29,7 @@ jobs:
       - name: Update Local Source
         working-directory: C:\mozilla-source\mozilla-unified
         shell: C:\mozilla-build\start-shell.bat -here -e {0}
-        run: hg up -C $(cat ../../version)
+        run: cat $GITHUB_WORKSPACE/version | xargs hg up -C
 
       - name: Initialize `mozconfig`
         working-directory: C:\mozilla-source\mozilla-unified
@@ -39,7 +39,7 @@ jobs:
           echo 'ac_add_options --disable-updater' >> mozconfig
           echo 'ac_add_options --disable-tests' >> mozconfig
           echo 'ac_add_options --disable-crashreporter' >> mozconfig
-          bash ../patch.sh
+          bash $GITHUB_WORKSPACE/patch.sh
 
       - name: Build and Package
         working-directory: C:\mozilla-source\mozilla-unified
