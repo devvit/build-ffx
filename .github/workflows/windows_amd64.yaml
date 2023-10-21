@@ -1,7 +1,7 @@
 name: Build Firefox on Windows
 
 on:
-  push:
+  # push:
   schedule:
     - cron: '0 0 4 * *'
 
@@ -39,6 +39,8 @@ jobs:
           echo 'ac_add_options --disable-updater' >> mozconfig
           echo 'ac_add_options --disable-tests' >> mozconfig
           echo 'ac_add_options --disable-crashreporter' >> mozconfig
+          # echo 'ac_add_options --with-app-name=floorp' >> mozconfig
+          # echo 'ac_add_options --with-app-basename=Floorp' >> mozconfig
           bash $GITHUB_WORKSPACE/patch.sh
 
       - name: Build and Package
