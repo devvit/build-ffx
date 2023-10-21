@@ -29,10 +29,7 @@ jobs:
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
         run: |
-          echo 'ac_add_options --with-branding=browser/branding/unofficial' > mozconfig
-          echo 'ac_add_options --disable-updater' >> mozconfig
-          echo 'ac_add_options --disable-tests' >> mozconfig
-          echo 'ac_add_options --disable-crashreporter' >> mozconfig
+          cat $GITHUB_WORKSPACE/mozconfig > mozconfig
           echo 'export CC="$HOME"/.mozbuild/clang/bin/clang' >> mozconfig
           echo 'export CXX="$HOME"/.mozbuild/clang/bin/clang++' >> mozconfig
           bash $GITHUB_WORKSPACE/patch.sh
