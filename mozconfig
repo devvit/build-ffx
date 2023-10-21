@@ -1,5 +1,7 @@
 #
 
+export MAKEOPTS=-j2
+
 ac_add_options --with-branding=browser/branding/unofficial
 ac_add_options --disable-updater
 ac_add_options --disable-tests
