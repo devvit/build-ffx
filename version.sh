@@ -1,3 +1,3 @@
 #
 
-curl -fsSL https://hg.mozilla.org/mozilla-unified/bookmarks | egrep -o 'esr(\d+)' | head -n1
+curl -fsSL https://hg.mozilla.org/mozilla-unified/bookmarks | perl -ne 'printf("%s\n", $&) if /esr(\d+)/' | head -n1
