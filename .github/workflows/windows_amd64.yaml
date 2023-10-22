@@ -50,4 +50,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: windows-firefox-amd64
-          path: "C:/mozilla-source/mozilla-unified/obj-x86_64-pc-windows-msvc/dist/sea"
+          path: "C:/mozilla-source/mozilla-unified/obj-x86_64-pc-windows-msvc/dist/install/sea"
