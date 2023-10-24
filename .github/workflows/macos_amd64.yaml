@@ -5,8 +5,8 @@ on:
   schedule:
     - cron: '0 0 2 * *'
 
-env:
-  GECKO_HEAD_REV: 760658
+# env:
+#   GECKO_HEAD_REV: 'esr115'
 
 jobs:
   build:
@@ -22,12 +22,15 @@ jobs:
 
       - name: Bootstrap Mozilla Source
         run: |
+          export GECKO_HEAD_REV=$(bash $GITHUB_WORKSPACE/version.sh)
           curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
           python3 bootstrap.py --application-choice=browser --no-interactive
 
-      # - name: Update Local Source
-      #   working-directory: ./mozilla-unified
-      #   run: bash $GITHUB_WORKSPACE/version.sh | xargs hg up -C
+      - name: Update Local Source
+        working-directory: ./mozilla-unified
+        # run: bash $GITHUB_WORKSPACE/version.sh | xargs hg up -C
+        run: |
+          hg log -l3
 
       # - name: Initialize `mozconfig`
       #   working-directory: ./mozilla-unified
