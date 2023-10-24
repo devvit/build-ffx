@@ -1,7 +1,7 @@
 name: Build Firefox on macOS(intel)
 
 on:
-  # push:
+  push:
   schedule:
     - cron: '0 0 2 * *'
 
@@ -18,13 +18,15 @@ jobs:
         run: python3 -m pip install mercurial==6.1.4
 
       - name: Bootstrap Mozilla Source
+        # run: |
+        #   curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
+        #   python3 bootstrap.py --application-choice=browser --no-interactive
         run: |
-          curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
-          python3 bootstrap.py --application-choice=browser --no-interactive
+          git clone --branch esr115 --depth 1 https://github.com/mozilla/gecko-dev ./mozilla-unified
 
-      - name: Update Local Source
-        working-directory: ./mozilla-unified
-        run: bash $GITHUB_WORKSPACE/version.sh | xargs hg up -C
+      # - name: Update Local Source
+      #   working-directory: ./mozilla-unified
+      #   run: bash $GITHUB_WORKSPACE/version.sh | xargs hg up -C
 
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
@@ -37,6 +39,8 @@ jobs:
       - name: Build and Package
         working-directory: ./mozilla-unified
         run: |
+          ./mach bootstrap
+          ./mach configure
           ./mach build 
           ./mach package
 
