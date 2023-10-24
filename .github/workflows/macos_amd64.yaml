@@ -5,9 +5,6 @@ on:
   schedule:
     - cron: '0 0 2 * *'
 
-# env:
-#   GECKO_HEAD_REV: 'esr115'
-
 jobs:
   build:
     runs-on: macos-latest
@@ -22,7 +19,7 @@ jobs:
 
       - name: Bootstrap Mozilla Source
         run: |
-          export GECKO_HEAD_REV=$(bash $GITHUB_WORKSPACE/version.sh)
+          echo "GECKO_HEAD_REV=$(bash $GITHUB_WORKSPACE/version.sh)" >> "$GITHUB_ENV"
           curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
           python3 bootstrap.py --application-choice=browser --no-interactive
 
