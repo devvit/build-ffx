@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: '0 0 2 * *'
 
+env:
+  GECKO_HEAD_REV: 760658
+
 jobs:
   build:
     runs-on: macos-latest
@@ -18,36 +21,32 @@ jobs:
         run: python3 -m pip install mercurial==6.1.4
 
       - name: Bootstrap Mozilla Source
-        # run: |
-        #   curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
-        #   python3 bootstrap.py --application-choice=browser --no-interactive
         run: |
-          cargo install git-cinnabar
-          git cinnabar setup
-          git clone --branch esr115 --depth 1 https://github.com/mozilla/gecko-dev ./mozilla-unified
+          curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
+          python3 bootstrap.py --application-choice=browser --no-interactive
 
       # - name: Update Local Source
       #   working-directory: ./mozilla-unified
       #   run: bash $GITHUB_WORKSPACE/version.sh | xargs hg up -C
 
-      - name: Initialize `mozconfig`
-        working-directory: ./mozilla-unified
-        run: |
-          cat $GITHUB_WORKSPACE/mozconfig > mozconfig
-          echo 'export CC="$HOME"/.mozbuild/clang/bin/clang' >> mozconfig
-          echo 'export CXX="$HOME"/.mozbuild/clang/bin/clang++' >> mozconfig
-          bash $GITHUB_WORKSPACE/patch.sh
+      # - name: Initialize `mozconfig`
+      #   working-directory: ./mozilla-unified
+      #   run: |
+      #     cat $GITHUB_WORKSPACE/mozconfig > mozconfig
+      #     echo 'export CC="$HOME"/.mozbuild/clang/bin/clang' >> mozconfig
+      #     echo 'export CXX="$HOME"/.mozbuild/clang/bin/clang++' >> mozconfig
+      #     bash $GITHUB_WORKSPACE/patch.sh
 
-      - name: Build and Package
-        working-directory: ./mozilla-unified
-        run: |
-          ./mach bootstrap
-          ./mach configure
-          ./mach build 
-          ./mach package
+      # - name: Build and Package
+      #   working-directory: ./mozilla-unified
+      #   run: |
+      #     ./mach bootstrap
+      #     ./mach configure
+      #     ./mach build 
+      #     ./mach package
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: macos-firefox-amd64
-          path: "**/*.dmg"
+      # - name: Upload Artifacts
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: macos-firefox-amd64
+      #     path: "**/*.dmg"
