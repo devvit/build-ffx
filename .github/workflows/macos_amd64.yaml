@@ -20,6 +20,8 @@ jobs:
 
       - name: Bootstrap Mozilla Source
         run: |
+          cargo install git-cinnabar
+          git cinnabar setup
           git clone --branch esr115 --depth 1 https://github.com/mozilla/gecko-dev.git ./mozilla-unified
           # curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
           # GECKO_HEAD_REV=$(bash $GITHUB_WORKSPACE/version.sh) python3 bootstrap.py --application-choice=browser --no-interactive
