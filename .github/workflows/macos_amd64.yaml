@@ -5,8 +5,8 @@ on:
   schedule:
     - cron: '0 0 2 * *'
 
-env:
-  GECKO_HEAD_REV: 'esr115'
+# env:
+#   GECKO_HEAD_REV: 'esr115'
 
 jobs:
   build:
