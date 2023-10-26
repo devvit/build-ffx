@@ -7,17 +7,12 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: "macos-13"
     permissions:
       contents: write
     steps:
       - name: "checkout repo"
         uses: actions/checkout@v3
-
-      - name: "Set the latest stable Xcode version"
-      - uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: latest-stable
 
       - name: Install Mercurial
         run: python3 -m pip install mercurial==6.1.4
