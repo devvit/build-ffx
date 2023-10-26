@@ -5,9 +5,6 @@ on:
   schedule:
     - cron: '0 0 2 * *'
 
-# env:
-#   GECKO_HEAD_REV: 'esr115'
-
 jobs:
   build:
     runs-on: macos-latest
@@ -22,16 +19,12 @@ jobs:
 
       - name: Bootstrap Mozilla Source
         run: |
-          cargo install git-cinnabar
-          git cinnabar setup
-          git clone --branch esr115 --depth 1 https://github.com/mozilla/gecko-dev.git ./mozilla-unified
-          # curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
-          # python3 bootstrap.py --application-choice=browser --no-interactive
+          curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
+          python3 bootstrap.py --application-choice=browser --no-interactive
 
-      # - name: Update Local Source
-      #   working-directory: ./mozilla-unified
-        # run: bash $GITHUB_WORKSPACE/version.sh | xargs hg up -C
-        # run: hg log -l3
+      - name: Update Local Source
+        working-directory: ./mozilla-unified
+        run: bash $GITHUB_WORKSPACE/version.sh | xargs hg up -C
 
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
@@ -44,7 +37,6 @@ jobs:
       - name: Build and Package
         working-directory: ./mozilla-unified
         run: |
-          ./mach bootstrap
           ./mach build 
           ./mach package
 
