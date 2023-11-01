@@ -36,7 +36,6 @@ jobs:
         run: |
           cat $GITHUB_WORKSPACE/mozconfig > mozconfig
           echo 'ac_add_options --disable-jemalloc' >> mozconfig
-          echo 'ac_add_options --disable-gconf' >> mozconfig
           echo 'ac_add_options --disable-elf-hack' >> mozconfig
           bash $GITHUB_WORKSPACE/patch.sh
 
