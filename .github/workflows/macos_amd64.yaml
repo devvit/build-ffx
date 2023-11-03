@@ -3,7 +3,7 @@ name: Build Firefox on macOS(intel)
 on:
   # push:
   schedule:
-    - cron: '0 12 2 * *'
+    - cron: '0 0 2 * *'
 
 jobs:
   build:
