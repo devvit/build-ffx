@@ -1,4 +1,4 @@
-name: Build Firefox on macOS(apple)
+name: Build Firefox on macOS(m1)
 
 on:
   # push:
