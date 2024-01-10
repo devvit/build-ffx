@@ -12,7 +12,7 @@ ac_add_options --disable-profiling
 ac_add_options --disable-jprof
 ac_add_options --disable-dmd
 ac_add_options --disable-geckodriver
-ac_add_options --disable-webrtc
+# ac_add_options --disable-webrtc
 ac_add_options --disable-debug
 ac_add_options --disable-debug-symbols
 ac_add_options --disable-eme
