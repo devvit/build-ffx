@@ -14,12 +14,14 @@ jobs:
       - name: "checkout repo"
         uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11' 
-
       - name: Install Mercurial
-        run: python3 -m pip install -U mercurial
+        run: |
+          brew update
+          brew install --force python@3.12
+          brew link --overwrite python@3.12
+          brew install --force python@3.11
+          brew link --overwrite python@3.11
+          python3 -m pip install -U mercurial
 
       - name: Bootstrap Mozilla Source
         run: |
@@ -42,8 +44,6 @@ jobs:
       - name: Build and Package
         working-directory: ./mozilla-unified
         run: |
-          brew update
-          brew install --force --overwrite python@3.11
           ./mach --no-interactive bootstrap --application-choice=browser
           ./mach build 
           ./mach package
