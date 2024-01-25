@@ -42,6 +42,8 @@ jobs:
       - name: Build and Package
         working-directory: ./mozilla-unified
         run: |
+          brew update
+          brew install --force --overwrite python@3.11
           ./mach --no-interactive bootstrap --application-choice=browser
           ./mach build 
           ./mach package
