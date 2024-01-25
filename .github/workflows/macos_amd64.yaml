@@ -16,7 +16,6 @@ jobs:
 
       - name: Install Mercurial
         run: |
-          brew uninstall --force python@3.12
           brew update
           brew install --force --overwrite python@3.12
           brew link --overwrite python@3.12
