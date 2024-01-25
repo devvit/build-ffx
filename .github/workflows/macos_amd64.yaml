@@ -15,12 +15,12 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Mercurial
-        run: python3.11 -m pip install -U mercurial
+        run: python3 -m pip install -U mercurial
 
       - name: Bootstrap Mozilla Source
         run: |
           curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
-          python3.11 bootstrap.py --application-choice=browser --no-interactive
+          python3 bootstrap.py --application-choice=browser --no-interactive
 
       - name: Update Local Source
         working-directory: ./mozilla-unified
@@ -37,8 +37,8 @@ jobs:
       - name: Build and Package
         working-directory: ./mozilla-unified
         run: |
-          python3.11 mach build 
-          python3.11 mach package
+          ./mach build 
+          ./mach package
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
