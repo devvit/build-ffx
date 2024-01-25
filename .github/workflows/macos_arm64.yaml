@@ -1,4 +1,4 @@
-name: Build Firefox on macOS(m1)
+name: Build Firefox on macOS(Apple_silicon)
 
 on:
   # push:
@@ -8,33 +8,29 @@ on:
 jobs:
   build:
     runs-on: "macos-13"
-    strategy:
-      matrix:
-        python-version: ['3.11']
     permissions:
       contents: write
     steps:
       - name: "checkout repo"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Mercurial
-        run: python3 -m pip install -U mercurial
+        run: |
+          brew update
+          brew install --force --overwrite python@3.12
+          brew link --overwrite python@3.12
+          brew install --force --overwrite python@3.11
+          brew link --overwrite python@3.11
+          python3 -m pip install -U mercurial
 
       - name: Bootstrap Mozilla Source
         run: |
-          curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
-          python3 bootstrap.py --application-choice=browser --no-interactive
-
-      - name: Update Local Source
-        working-directory: ./mozilla-unified
-        run: bash $GITHUB_WORKSPACE/version.sh | xargs hg up -C
+          git clone --depth 1 --branch $(bash $GITHUB_WORKSPACE/version.sh) https://github.com/mozilla/gecko-dev mozilla-unified
 
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
         run: |
           cat $GITHUB_WORKSPACE/mozconfig > mozconfig
-          echo 'export CC="$HOME"/.mozbuild/clang/bin/clang' >> mozconfig
-          echo 'export CXX="$HOME"/.mozbuild/clang/bin/clang++' >> mozconfig
           echo 'ac_add_options --target=aarch64-apple-darwin' >> mozconfig
           rustup target add aarch64-apple-darwin
           bash $GITHUB_WORKSPACE/patch.sh
@@ -42,11 +38,12 @@ jobs:
       - name: Build and Package
         working-directory: ./mozilla-unified
         run: |
+          ./mach --no-interactive bootstrap --application-choice=browser
           ./mach build 
           ./mach package
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: macos-firefox-arm64
+          name: macos-firefox-amd64
           path: "**/*.dmg"

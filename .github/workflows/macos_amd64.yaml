@@ -1,4 +1,4 @@
-name: Build Firefox on macOS(intel)
+name: Build Firefox on macOS(Intel)
 
 on:
   # push:
@@ -25,20 +25,12 @@ jobs:
 
       - name: Bootstrap Mozilla Source
         run: |
-          git clone --depth 1 --branch esr115 https://github.com/mozilla/gecko-dev mozilla-unified
-      #     curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
-      #     python3 bootstrap.py --application-choice=browser --no-interactive
-
-      # - name: Update Local Source
-      #   working-directory: ./mozilla-unified
-      #   run: bash $GITHUB_WORKSPACE/version.sh | xargs hg up -C
+          git clone --depth 1 --branch $(bash $GITHUB_WORKSPACE/version.sh) https://github.com/mozilla/gecko-dev mozilla-unified
 
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
         run: |
           cat $GITHUB_WORKSPACE/mozconfig > mozconfig
-          # echo 'export CC="$HOME"/.mozbuild/clang/bin/clang' >> mozconfig
-          # echo 'export CXX="$HOME"/.mozbuild/clang/bin/clang++' >> mozconfig
           bash $GITHUB_WORKSPACE/patch.sh
 
       - name: Build and Package
