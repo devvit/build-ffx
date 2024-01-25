@@ -33,6 +33,7 @@ MOZ_TELEMETRY_REPORTING=
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
     # echo 'ac_add_options --with-macbundlename-prefix=Icecat' >>mozconfig
+    echo '' >>mozconfig
 elif [[ "$(uname -s)" == "Linux" ]]; then
     echo 'ac_add_options --disable-jemalloc' >>mozconfig
     echo 'ac_add_options --disable-elf-hack' >>mozconfig
