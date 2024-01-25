@@ -12,31 +12,37 @@ jobs:
       contents: write
     steps:
       - name: "checkout repo"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11' 
 
       - name: Install Mercurial
         run: python3 -m pip install -U mercurial
 
       - name: Bootstrap Mozilla Source
         run: |
-          curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
-          python3 bootstrap.py --application-choice=browser --no-interactive
+          git clone --depth 1 --branch esr115 https://github.com/mozilla/gecko-dev mozilla-unified
+      #     curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
+      #     python3 bootstrap.py --application-choice=browser --no-interactive
 
-      - name: Update Local Source
-        working-directory: ./mozilla-unified
-        run: bash $GITHUB_WORKSPACE/version.sh | xargs hg up -C
+      # - name: Update Local Source
+      #   working-directory: ./mozilla-unified
+      #   run: bash $GITHUB_WORKSPACE/version.sh | xargs hg up -C
 
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
         run: |
           cat $GITHUB_WORKSPACE/mozconfig > mozconfig
-          echo 'export CC="$HOME"/.mozbuild/clang/bin/clang' >> mozconfig
-          echo 'export CXX="$HOME"/.mozbuild/clang/bin/clang++' >> mozconfig
+          # echo 'export CC="$HOME"/.mozbuild/clang/bin/clang' >> mozconfig
+          # echo 'export CXX="$HOME"/.mozbuild/clang/bin/clang++' >> mozconfig
           bash $GITHUB_WORKSPACE/patch.sh
 
       - name: Build and Package
         working-directory: ./mozilla-unified
         run: |
+          ./mach --no-interactive bootstrap --application-choice browser
           ./mach build 
           ./mach package
 
