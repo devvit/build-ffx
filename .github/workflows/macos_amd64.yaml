@@ -42,7 +42,7 @@ jobs:
       - name: Build and Package
         working-directory: ./mozilla-unified
         run: |
-          ./mach --no-interactive bootstrap --application-choice browser
+          ./mach bootstrap --no-interactive --application-choice browser
           ./mach build 
           ./mach package
 
