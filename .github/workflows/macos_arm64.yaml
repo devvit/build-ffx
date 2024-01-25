@@ -30,11 +30,9 @@ jobs:
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
         run: |
-          cat $GITHUB_WORKSPACE/mozconfig > mozconfig
-          # echo 'ac_add_options --with-macbundlename-prefix=Icecat' >> mozconfig
+          bash $GITHUB_WORKSPACE/patch.sh
           echo 'ac_add_options --target=aarch64-apple-darwin' >> mozconfig
           rustup target add aarch64-apple-darwin
-          bash $GITHUB_WORKSPACE/patch.sh
 
       - name: Build and Package
         working-directory: ./mozilla-unified

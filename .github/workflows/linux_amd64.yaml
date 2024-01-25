@@ -1,7 +1,7 @@
 name: Build Firefox on Linux
 
 on:
-  # push:
+  push:
   schedule:
     - cron: '0 0 1 * *'
 
@@ -34,9 +34,6 @@ jobs:
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
         run: |
-          cat $GITHUB_WORKSPACE/mozconfig > mozconfig
-          echo 'ac_add_options --disable-jemalloc' >> mozconfig
-          echo 'ac_add_options --disable-elf-hack' >> mozconfig
           bash $GITHUB_WORKSPACE/patch.sh
 
       - name: Build and Package

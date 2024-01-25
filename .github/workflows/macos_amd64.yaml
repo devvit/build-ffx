@@ -30,8 +30,6 @@ jobs:
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
         run: |
-          cat $GITHUB_WORKSPACE/mozconfig > mozconfig
-          # echo 'ac_add_options --with-macbundlename-prefix=Icecat' >> mozconfig
           bash $GITHUB_WORKSPACE/patch.sh
 
       - name: Build and Package
