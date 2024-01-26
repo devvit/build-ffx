@@ -27,6 +27,7 @@ ac_add_options --disable-warnings-as-errors
 MOZ_REQUIRE_SIGNING=
 MOZ_DATA_REPORTING=
 MOZ_TELEMETRY_REPORTING=
+MOZ_APP_DISPLAYNAME=ESR
 
 # export MOZ_LTO=cross
 ' >mozconfig
@@ -40,7 +41,6 @@ MOZ_TELEMETRY_REPORTING=
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
     echo 'ac_add_options --with-macbundlename-prefix=Firefox' >>mozconfig
-    echo 'MOZ_APP_DISPLAYNAME=ESR' >>mozconfig
 elif [[ "$(uname -s)" == "Linux" ]]; then
     echo 'ac_add_options --disable-jemalloc' >>mozconfig
     echo 'ac_add_options --disable-elf-hack' >>mozconfig
