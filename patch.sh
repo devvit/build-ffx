@@ -29,6 +29,13 @@ MOZ_DATA_REPORTING=
 MOZ_TELEMETRY_REPORTING=
 
 # export MOZ_LTO=cross
+
+ac_add_options --enable-optimize="-O3 -msse4.1"
+export CFLAGS="-O3 -msse4.1"
+export CPPFLAGS="-O3 -msse4.1"
+export CXXFLAGS="-O3 -msse4.1"
+export LDFLAGS="-Wl,-O3 -msse4.1"
+export RUSTFLAGS="-C target-feature=+sse4.1"
 ' >mozconfig
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
