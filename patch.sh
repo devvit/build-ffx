@@ -2,8 +2,8 @@
 
 echo '
 ac_add_options --with-branding=browser/branding/unofficial
-ac_add_options --with-app-name=firefox
-ac_add_options --with-app-basename=Firefox
+# ac_add_options --with-app-name=firefox
+# ac_add_options --with-app-basename=Firefox
 # ac_add_options --with-distribution-id=org.gnu
 
 ac_add_options --without-wasm-sandboxed-libraries
@@ -27,7 +27,6 @@ ac_add_options --disable-warnings-as-errors
 export MOZ_REQUIRE_SIGNING=
 export MOZ_DATA_REPORTING=
 export MOZ_TELEMETRY_REPORTING=
-export MOZ_APP_DISPLAYNAME=ESR
 
 # export MOZ_LTO=cross
 ' >mozconfig
@@ -40,7 +39,8 @@ export MOZ_APP_DISPLAYNAME=ESR
 # export RUSTFLAGS="-C target-feature=+sse4.1"
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
-    echo 'ac_add_options --with-macbundlename-prefix=Firefox' >>mozconfig
+    # echo 'ac_add_options --with-macbundlename-prefix=Firefox' >>mozconfig
+    echo 'ac_add_options --enable-application=browser' >>mozconfig
 elif [[ "$(uname -s)" == "Linux" ]]; then
     echo 'ac_add_options --disable-jemalloc' >>mozconfig
     echo 'ac_add_options --disable-elf-hack' >>mozconfig
@@ -49,5 +49,8 @@ else
     echo 'ac_add_options --enable-lto' >>mozconfig
     echo 'export MOZ_LTO=cross' >>mozconfig
 fi
+
+version=$(bash ../version.sh | tr 'a-z' 'A-Z' | tr -dc 'A-Z-')
+echo "MOZ_APP_DISPLAYNAME='Firefox ${version}'" >./browser/branding/unofficial/configure.sh
 
 perl -pi -e 's/debuggerStatement\(\) {/debuggerStatement\(\) {return null\(\);/g' ./js/src/frontend/Parser.cpp

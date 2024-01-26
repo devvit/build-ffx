@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: "checkout repo"
         uses: actions/checkout@v4
+        run: |
+          echo "version=$(bash $GITHUB_WORKSPACE/version.sh)" >> $GITHUB_ENV
 
       - name: Install Mercurial
         run: |
@@ -25,7 +27,7 @@ jobs:
 
       - name: Bootstrap Mozilla Source
         run: |
-          git clone --depth 1 --branch $(bash $GITHUB_WORKSPACE/version.sh) https://github.com/mozilla/gecko-dev mozilla-unified
+          git clone --depth 1 --branch $version https://github.com/mozilla/gecko-dev mozilla-unified
 
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
@@ -42,5 +44,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: macos-firefox-amd64
+          name: macos-firefox-${{ env.version }}-amd64
           path: "**/*.dmg"
