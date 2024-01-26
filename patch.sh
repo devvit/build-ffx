@@ -39,8 +39,8 @@ export RUSTFLAGS="-C target-feature=+sse4.1"
 ' >mozconfig
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
-    echo 'MOZ_MACBUNDLE_NAME_PREFIX=Firefox' >>mozconfig
-    echo 'MOZ_APP_DISPLAYNAME=.ESR' >>mozconfig
+    echo 'ac_add_options --with-macbundlename-prefix=Firefox' >>mozconfig
+    echo 'ac_add_options --with-app-displayname=.ESR' >>mozconfig
 elif [[ "$(uname -s)" == "Linux" ]]; then
     echo 'ac_add_options --disable-jemalloc' >>mozconfig
     echo 'ac_add_options --disable-elf-hack' >>mozconfig
