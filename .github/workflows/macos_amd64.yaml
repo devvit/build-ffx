@@ -13,11 +13,10 @@ jobs:
     steps:
       - name: "checkout repo"
         uses: actions/checkout@v4
-        run: |
-          echo "version=$(bash $GITHUB_WORKSPACE/version.sh)" >> $GITHUB_ENV
 
       - name: Install Mercurial
         run: |
+          echo "version=$(bash $GITHUB_WORKSPACE/version.sh)" >> $GITHUB_ENV
           brew update
           brew install --force --overwrite python@3.12
           brew link --overwrite python@3.12
