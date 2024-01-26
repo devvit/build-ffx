@@ -50,7 +50,7 @@ else
     echo 'export MOZ_LTO=cross' >>mozconfig
 fi
 
-version=$(bash ../version.sh | tr 'a-z' 'A-Z' | tr -dc 'A-Z-')
-echo "MOZ_APP_DISPLAYNAME='Firefox ${version}'" >./browser/branding/unofficial/configure.sh
+version_name=$(echo $version | tr 'a-z' 'A-Z' | tr -dc 'A-Z-')
+echo "MOZ_APP_DISPLAYNAME='Firefox ${version_name}'" >./browser/branding/unofficial/configure.sh
 
 perl -pi -e 's/debuggerStatement\(\) {/debuggerStatement\(\) {return null\(\);/g' ./js/src/frontend/Parser.cpp
