@@ -24,10 +24,10 @@ ac_add_options --disable-warnings-as-errors
 # ac_add_options --enable-bootstrap
 # ac_add_options --enable-lto
 
-MOZ_REQUIRE_SIGNING=
-MOZ_DATA_REPORTING=
-MOZ_TELEMETRY_REPORTING=
-MOZ_APP_DISPLAYNAME=ESR
+export MOZ_REQUIRE_SIGNING=
+export MOZ_DATA_REPORTING=
+export MOZ_TELEMETRY_REPORTING=
+export MOZ_APP_DISPLAYNAME=ESR
 
 # export MOZ_LTO=cross
 ' >mozconfig
