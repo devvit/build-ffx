@@ -2,8 +2,8 @@
 
 echo '
 ac_add_options --with-branding=browser/branding/unofficial
-# ac_add_options --with-app-name=icecat
-# ac_add_options --with-app-basename=Icecat
+ac_add_options --with-app-name=firefox
+ac_add_options --with-app-basename=Firefox
 # ac_add_options --with-distribution-id=org.gnu
 
 ac_add_options --without-wasm-sandboxed-libraries
@@ -32,8 +32,8 @@ MOZ_TELEMETRY_REPORTING=
 ' >mozconfig
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
-    # echo 'ac_add_options --with-macbundlename-prefix=Icecat' >>mozconfig
-    echo
+    echo 'MOZ_MACBUNDLE_NAME_PREFIX=Firefox' >>mozconfig
+    echo 'MOZ_APP_DISPLAYNAME=.ESR' >>mozconfig
 elif [[ "$(uname -s)" == "Linux" ]]; then
     echo 'ac_add_options --disable-jemalloc' >>mozconfig
     echo 'ac_add_options --disable-elf-hack' >>mozconfig
