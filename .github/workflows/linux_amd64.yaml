@@ -1,7 +1,7 @@
 name: Build Firefox on Linux
 
 on:
-  # push:
+  push:
   schedule:
     - cron: '0 0 1 * *'
 
@@ -16,6 +16,7 @@ jobs:
 
       - name: Free up Disk Space
         run: |
+          echo "version=$(bash $GITHUB_WORKSPACE/version.sh)" >> $GITHUB_ENV
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /opt/ghc
@@ -24,12 +25,7 @@ jobs:
 
       - name: Bootstrap Mozilla Source
         run: |
-          curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
-          python3 bootstrap.py --application-choice=browser --no-interactive
-
-      - name: Update Local Source
-        working-directory: ./mozilla-unified
-        run: bash $GITHUB_WORKSPACE/version.sh | xargs hg up -C
+          git clone --depth 1 --branch $version https://github.com/mozilla/gecko-dev mozilla-unified
 
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
@@ -39,6 +35,7 @@ jobs:
       - name: Build and Package
         working-directory: ./mozilla-unified
         run: |
+          ./mach --no-interactive bootstrap --application-choice=browser
           ./mach build 
           ./mach package
 
