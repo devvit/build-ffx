@@ -42,5 +42,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: linux-firefox-amd64
+          name: linux-firefox-${{ env.version }}-amd64
           path: "**/*.tar.bz2"

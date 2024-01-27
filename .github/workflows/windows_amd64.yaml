@@ -1,7 +1,7 @@
 name: Build Firefox on Windows
 
 on:
-  push:
+  # push:
   schedule:
     - cron: '0 0 4 * *'
 
@@ -44,5 +44,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: windows-firefox-amd64
+          name: windows-firefox-${{ env.version }}-amd64
           path: "C:/mozilla-source/mozilla-unified/obj-x86_64-pc-windows-msvc/dist/install/sea"
