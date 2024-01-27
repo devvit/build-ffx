@@ -16,7 +16,7 @@ jobs:
 
       - name: Install MozillaBuild
         run: |
-          echo "version=$(bash $GITHUB_WORKSPACE/version.sh)" >> $GITHUB_ENV
+          echo "version=$(bash $GITHUB_WORKSPACE/version.sh)" >> $env:GITHUB_ENV
           choco install mozillabuild -y --no-progress
 
       - name: Bootstrap Mozilla Source
@@ -25,8 +25,7 @@ jobs:
         run: |
           mkdir mozilla-source
           cd mozilla-source
-          git clone --depth 1 --branch $version https://github.com/mozilla/gecko-dev
-          mv gecko-dev mozilla-unified
+          git clone --depth 1 --branch $version https://github.com/mozilla/gecko-dev mozilla-unified
 
       - name: Initialize `mozconfig`
         working-directory: C:\mozilla-source\mozilla-unified
