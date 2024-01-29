@@ -22,7 +22,6 @@ jobs:
           brew link --overwrite python@3.12
           brew install --force --overwrite python@3.11
           brew link --overwrite python@3.11
-          python3 -m pip install -U mercurial
 
       - name: Bootstrap Mozilla Source
         run: |
