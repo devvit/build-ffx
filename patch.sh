@@ -41,6 +41,8 @@ export MOZ_TELEMETRY_REPORTING=
 if [[ "$(uname -s)" == "Darwin" ]]; then
     # echo 'ac_add_options --with-macbundlename-prefix=Firefox' >>mozconfig
     echo 'ac_add_options --enable-application=browser' >>mozconfig
+    echo 'export CC="$HOME"/.mozbuild/clang/bin/clang' >>mozconfig
+    echo 'export CXX="$HOME"/.mozbuild/clang/bin/clang++' >>mozconfig
 elif [[ "$(uname -s)" == "Linux" ]]; then
     echo 'ac_add_options --disable-jemalloc' >>mozconfig
     echo 'ac_add_options --disable-elf-hack' >>mozconfig
