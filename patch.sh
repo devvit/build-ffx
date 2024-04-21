@@ -56,4 +56,4 @@ echo $version | tr 'a-z' 'A-Z' | tr -dc 'A-Z-' | xargs -I {} \
     echo "MOZ_APP_DISPLAYNAME='Browser{}'" >./browser/branding/unofficial/configure.sh
 
 perl -pi -e 's/debuggerStatement\(\) {/debuggerStatement\(\) {return null\(\);/g' ./js/src/frontend/Parser.cpp
-perl -pi -e 's/return StaticPrefs::ui_key_menuAccessKey\(\);/return false;/g' widget/nsXPLookAndFeel.cpp
+perl -pi -e 's/return StaticPrefs::ui_key_menuAccessKey\(\);/return 0;/g' widget/nsXPLookAndFeel.cpp
