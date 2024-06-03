@@ -44,5 +44,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: macos-firefox-${{ env.version }}-amd64
+          name: macos-firefox-${{ env.version }}-arm64
           path: "**/*.dmg"
