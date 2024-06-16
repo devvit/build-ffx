@@ -7,21 +7,21 @@ on:
 
 jobs:
   build:
-    runs-on: "macos-12"
+    runs-on: "macos-latest"
     permissions:
       contents: write
     steps:
       - name: "checkout repo"
         uses: actions/checkout@v4
 
-      - name: Install Mercurial
-        run: |
-          echo "version=$(bash $GITHUB_WORKSPACE/version.sh)" >> $GITHUB_ENV
-          brew update
-          brew install --force --overwrite python@3.12
-          brew link --overwrite python@3.12
-          brew install --force --overwrite python@3.11
-          brew link --overwrite python@3.11
+      # - name: Install Mercurial
+      #   run: |
+      #     echo "version=$(bash $GITHUB_WORKSPACE/version.sh)" >> $GITHUB_ENV
+      #     brew update
+      #     brew install --force --overwrite python@3.12
+      #     brew link --overwrite python@3.12
+      #     brew install --force --overwrite python@3.11
+      #     brew link --overwrite python@3.11
 
       - name: Bootstrap Mozilla Source
         run: |
