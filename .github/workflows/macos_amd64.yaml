@@ -1,7 +1,7 @@
 name: Build Firefox on macOS(Intel)
 
 on:
-  # push:
+  push:
   schedule:
     - cron: '0 0 2 * *'
 
@@ -31,6 +31,8 @@ jobs:
         working-directory: ./mozilla-unified
         run: |
           bash $GITHUB_WORKSPACE/patch.sh
+          echo 'ac_add_options --target=x86_64-apple-darwin' >> mozconfig
+          rustup target add aarch64-apple-darwin
 
       - name: Build and Package
         working-directory: ./mozilla-unified
