@@ -1,7 +1,7 @@
 name: Build Firefox on Windows
 
 on:
-  push:
+  # push:
   schedule:
     - cron: '0 0 21 * *'
 
@@ -32,9 +32,6 @@ jobs:
         shell: C:\mozilla-build\start-shell.bat -here -e {0}
         run: |
           bash $GITHUB_WORKSPACE/patch.sh
-          rustup target add x86_64-pc-windows-msvc
-          rustup update
-          rustc --version --verbose
 
       - name: Build and Package
         working-directory: C:\mozilla-source\mozilla-unified
