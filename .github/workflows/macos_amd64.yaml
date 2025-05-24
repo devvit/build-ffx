@@ -22,7 +22,7 @@ jobs:
 
       - name: Bootstrap Mozilla Source
         run: |
-          git clone --depth 1 --branch $version https://github.com/mozilla/gecko-dev mozilla-unified
+          git clone --depth 1 --branch $version https://github.com/mozilla-firefox/firefox mozilla-unified
 
       - name: Initialize `mozconfig`
         working-directory: ./mozilla-unified
