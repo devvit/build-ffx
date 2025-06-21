@@ -12,7 +12,6 @@ ac_add_options --disable-updater
 ac_add_options --disable-tests
 ac_add_options --disable-crashreporter
 ac_add_options --disable-profiling
-ac_add_options --disable-jprof
 ac_add_options --disable-dmd
 ac_add_options --disable-geckodriver
 # ac_add_options --disable-webrtc
