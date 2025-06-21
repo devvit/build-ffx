@@ -45,4 +45,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-firefox-${{ env.version }}-amd64
-          path: "C:/mozilla-source/mozilla-unified/obj-x86_64-pc-windows-msvc/dist/install/sea"
+          path: "C:/mozilla-source/mozilla-unified/obj-x86_64-pc-windows-msvc/dist"
