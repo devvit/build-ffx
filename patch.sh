@@ -21,13 +21,10 @@ ac_add_options --disable-eme
 ac_add_options --disable-warnings-as-errors
 
 # ac_add_options --enable-bootstrap
-# ac_add_options --enable-lto
 
 export MOZ_REQUIRE_SIGNING=
 export MOZ_DATA_REPORTING=
 export MOZ_TELEMETRY_REPORTING=
-
-# export MOZ_LTO=cross
 ' >mozconfig
 
 # ac_add_options --enable-optimize="-O3 -msse4.1"
