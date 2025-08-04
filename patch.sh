@@ -47,8 +47,8 @@ elif [[ "$(uname -s)" == "Linux" ]]; then
     echo 'ac_add_options --disable-elf-hack' >>mozconfig
 else
     echo 'ac_add_options --disable-maintenance-service' >>mozconfig
-    echo 'ac_add_options --enable-lto' >>mozconfig
-    echo 'export MOZ_LTO=cross' >>mozconfig
+    # echo 'ac_add_options --enable-lto' >>mozconfig
+    # echo 'export MOZ_LTO=cross' >>mozconfig
 fi
 
 echo $version | tr 'a-z' 'A-Z' | tr -dc 'A-Z-' | xargs -I {} \
