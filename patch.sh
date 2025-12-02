@@ -52,6 +52,6 @@ fi
 #     echo "MOZ_APP_DISPLAYNAME='Browser{}'" >./browser/branding/unofficial/configure.sh
 echo "MOZ_APP_DISPLAYNAME='Browser'" >./browser/branding/unofficial/configure.sh
 
-# perl -pi -e 's/debuggerStatement\(\) {/debuggerStatement\(\) {return null\(\);/g' ./js/src/frontend/Parser.cpp
-perl -pi -e "s/debugger, debugger/debugger$(date +'%Y%m%d%H%M%S'), debugger/g" ./js/src/frontend/ReservedWords.h
+perl -pi -e 's/debuggerStatement\(\) {/debuggerStatement\(\) {return null\(\);/g' ./js/src/frontend/Parser.cpp
+# perl -pi -e "s/debugger, debugger/debugger$(date +'%Y%m%d%H%M%S'), debugger/g" ./js/src/frontend/ReservedWords.h
 perl -pi -e 's/GetMenuAccessKey\(\) {/GetMenuAccessKey\(\) {return 0;/g' widget/nsXPLookAndFeel.cpp
