@@ -20,6 +20,11 @@ jobs:
           brew update
           brew install nasm
 
+      - name: setup python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
       - name: Bootstrap Mozilla Source
         run: |
           git clone --depth 1 --branch $version https://github.com/mozilla-firefox/firefox mozilla-unified
