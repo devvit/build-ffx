@@ -18,6 +18,7 @@ jobs:
         run: |
           echo "version=$(bash $GITHUB_WORKSPACE/version.sh)" >> $GITHUB_ENV
           brew update
+          brew install nasm
 
       - name: Bootstrap Mozilla Source
         run: |
