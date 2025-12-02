@@ -48,8 +48,9 @@ else
     # echo 'export MOZ_LTO=cross' >>mozconfig
 fi
 
-echo $version | tr 'a-z' 'A-Z' | tr -dc 'A-Z-' | xargs -I {} \
-    echo "MOZ_APP_DISPLAYNAME='Browser{}'" >./browser/branding/unofficial/configure.sh
+# echo $version | tr 'a-z' 'A-Z' | tr -dc 'A-Z-' | xargs -I {} \
+#     echo "MOZ_APP_DISPLAYNAME='Browser{}'" >./browser/branding/unofficial/configure.sh
+echo "MOZ_APP_DISPLAYNAME='Browser'" >./browser/branding/unofficial/configure.sh
 
 # perl -pi -e 's/debuggerStatement\(\) {/debuggerStatement\(\) {return null\(\);/g' ./js/src/frontend/Parser.cpp
 perl -pi -e "s/debugger, debugger/debugger$(date +'%Y%m%d%H%M%S'), debugger/g" ./js/src/frontend/ReservedWords.h
