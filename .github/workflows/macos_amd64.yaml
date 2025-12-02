@@ -1,7 +1,7 @@
 name: Build Firefox on macOS(Intel)
 
 on:
-  # push:
+  push:
   schedule:
     - cron: '0 0 1 * *'
 
@@ -19,6 +19,11 @@ jobs:
           echo "version=$(bash $GITHUB_WORKSPACE/version.sh)" >> $GITHUB_ENV
           brew update
           brew install nasm
+
+      - name: setup python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
 
       - name: Bootstrap Mozilla Source
         run: |
