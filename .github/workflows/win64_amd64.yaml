@@ -46,3 +46,4 @@ jobs:
         with:
           name: windows-firefox-${{ env.version }}-amd64
           path: "C:/mozilla-source/mozilla-unified/obj-x86_64-pc-windows-msvc/dist/install/sea"
+          retention-days: 3
