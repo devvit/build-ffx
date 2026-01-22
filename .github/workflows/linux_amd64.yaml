@@ -44,3 +44,4 @@ jobs:
         with:
           name: linux-firefox-${{ env.version }}-amd64
           path: "**/*.tar*z"
+          retention-days: 3
