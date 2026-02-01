@@ -23,7 +23,6 @@ jobs:
 
       - name: Bootstrap Mozilla Source
         working-directory: C:\
-        shell: C:\mozilla-build\start-shell.bat -here -e {0}
         run: |
           mkdir mozilla-source
           cd mozilla-source
