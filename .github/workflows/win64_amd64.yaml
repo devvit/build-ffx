@@ -18,15 +18,14 @@ jobs:
         run: |
           echo "version=$(bash ${{ github.workspace }}/version.sh)" >> $env:GITHUB_ENV
           choco install mozillabuild -y --no-progress
-          choco install curl -y --no-progress
-          choco install 7zip -y --no-progress
 
       - name: Bootstrap Mozilla Source
         working-directory: C:\
+        shell: bash
         run: |
           mkdir mozilla-source
           cd mozilla-source
-          bash $GITHUB_WORKSPACE/download.sh $version
+          bash "$GITHUB_WORKSPACE/download.sh" "$version"
 
       - name: Initialize `mozconfig`
         working-directory: C:\mozilla-source\mozilla-unified
