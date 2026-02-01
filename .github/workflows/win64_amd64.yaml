@@ -21,7 +21,6 @@ jobs:
           choco install curl -y --no-progress
           choco install 7zip -y --no-progress
 
-
       - name: Bootstrap Mozilla Source
         working-directory: C:\
         shell: C:\mozilla-build\start-shell.bat -here -e {0}
