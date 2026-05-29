@@ -48,4 +48,4 @@ jobs:
         with:
           name: macos-firefox-${{ env.version }}-arm64
           path: "**/*.dmg"
-          retention-days: 3
+          retention-days: 30
