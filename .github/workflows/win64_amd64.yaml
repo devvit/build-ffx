@@ -35,17 +35,11 @@ jobs:
 
       - name: Build and Package
         working-directory: C:\mozilla-source\mozilla-unified
-        # 移除原有的 shell 声明，改用默认的 PowerShell/CMD 或明确的 bash
-        # 我们通过 start-shell.bat 后面直接跟 -c 来单行执行命令
+        shell: cmd
         run: |
-          # 1. 执行 Bootstrap（通过 start-shell.bat 的控制台参数传进去）
-          & C:\mozilla-build\start-shell.bat -here -c "./mach --no-interactive bootstrap --application-choice=browser"
-          
-          # 2. 执行 Build
-          & C:\mozilla-build\start-shell.bat -here -c "./mach build"
-          
-          # 3. 执行 Package
-          & C:\mozilla-build\start-shell.bat -here -c "./mach package"
+          call "C:\mozilla-build\start-shell.bat" -here -c "./mach --no-interactive bootstrap --application-choice=browser" || exit /b %errorlevel%
+          call "C:\mozilla-build\start-shell.bat" -here -c "./mach build" || exit /b %errorlevel%
+          call "C:\mozilla-build\start-shell.bat" -here -c "./mach package" || exit /b %errorlevel%
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
