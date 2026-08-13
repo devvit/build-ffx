@@ -8,4 +8,4 @@
 #     curl -fsSL https://api.github.com/repos/mozilla-firefox/firefox/branches | perl -ne 'printf("%s\n", $&) if /esr(\d+)/' | tail -n1
 # fi
 
-echo 'esr140'
+echo 'esr153'
